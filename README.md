@@ -106,6 +106,7 @@ To stop the containers, use:
 ```bash
 docker compose down
 ```
+---
 
 Troubleshooting
 Database Connection Issues:
@@ -125,3 +126,5 @@ For further issues, check the logs:
 ```bash
 docker logs <container_id>
 ```
+
+---
