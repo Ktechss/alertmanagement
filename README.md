@@ -108,3 +108,22 @@ To stop the containers, use:
 ```bash
 docker compose down
 ```
+
+Troubleshooting
+Database Connection Issues:
+
+Ensure the database container is healthy and running:
+
+```bash
+docker ps
+```
+
+JWT Errors:
+
+Double-check the JWT_SECRET and expiration settings in your environment variables.
+
+For further issues, check the logs:
+
+```bash
+docker logs <container_id>
+```
