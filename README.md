@@ -1,5 +1,3 @@
-# Create the README.md content with the updated information
-readme_content = """
 # Alert Management System
 
 A Java-based alert management application that integrates with PostgreSQL for database storage and supports secure JWT-based authentication.
