@@ -127,4 +127,5 @@ For further issues, check the logs:
 docker logs <container_id>
 ```
 
+Check Spam in your mail if message is not visible in indbox.
 ---
