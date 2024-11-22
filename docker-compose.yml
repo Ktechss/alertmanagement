@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: alertmanagement-db
+    environment:
+      POSTGRES_USER: "${DB_USER:-test}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-test}"
+      POSTGRES_DB: "${DB_NAME:-alert_management}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-test} -d ${DB_NAME:-alert_management}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alertmanagement-app
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: "${DB_PORT:-5432}"
+      DB_NAME: "${DB_NAME:-alert_management}"
+      DB_USER: "${DB_USER:-test}"
+      DB_PASSWORD: "${DB_PASSWORD:-test}"
+      JWT_SECRET: "${JWT_SECRET:-my_secret_key}"
+      JWT_EXPIRATION: "${JWT_EXPIRATION:-1800000}"
+      MAIL_HOST: "${MAIL_HOST:-smtp.gmail.com}"
+      MAIL_PORT: "${MAIL_PORT:-587}"
+      MAIL_USERNAME: "${MAIL_USERNAME:-your-email@gmail.com}"
+      MAIL_PASSWORD: "${MAIL_PASSWORD:-your-password}"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
